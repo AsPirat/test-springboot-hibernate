@@ -14,10 +14,6 @@ public class ClusterReport {
         return id_resource;
     }
 
-    public void setId_resource(Long id_resource) {
-        this.id_resource = id_resource;
-    }
-
     public Double getWeight() {
         return weight;
     }
