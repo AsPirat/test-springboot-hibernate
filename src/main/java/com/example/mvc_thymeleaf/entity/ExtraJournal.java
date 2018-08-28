@@ -24,10 +24,6 @@ public class ExtraJournal {
     private Date date;
     private String operation;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_main_operation")
-    private Journal main_journal;*/
-
     public ExtraJournal() {
     }
 
@@ -39,27 +35,12 @@ public class ExtraJournal {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getOperation() {
-        return operation;
     }
 
     public void setOperation(String operation) {
         this.operation = operation;
     }
 
-    /*public Journal getMain_journal() {
-        return main_journal;
-    }
-
-    public void setMain_journal(Journal main_journal) {
-        this.main_journal = main_journal;
-    }*/
 }
