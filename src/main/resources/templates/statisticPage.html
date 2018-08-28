@@ -38,23 +38,7 @@
     <div class="main_stat">
         <div class="header-stat">
             <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">СТАТИСТИКА</div>
-            <!--ul class="paging">
-                <li class="page"><a th:href="@{/showStatistics(pageNumber=0)}"><i class="fa fa-reply-all" aria-hidden="true"></i></a></li>
-                <li class="page" th:switch="${startPage <= 1}">
-                    <a th:case="true" th:href="@{/showStatistics(pageNumber=1)}"><i class="fa fa-reply" aria-hidden="true"></i></a>
-                    <a th:case="*" th:href="@{/showStatistics(pageNumber=${startPage-1})}"><i class="fa fa-reply" aria-hidden="true"></i></a>
-                </li>
-                <li class="num-page" th:with="i = 0"
-                    th:each="page : ${#numbers.sequence((startPage>=countPages) ? countPages : startPage, (startPage>=countPages) ? countPages : startPage+i)}">
-                    <a th:href="@{/showStatistics(pageNumber=${page})}"
-                       th:text="${page}"></a>
-                </li>
-                <li class="page" th:switch="${startPage >= countPages}">
-                    <a th:case="true" th:href="@{/showStatistics(pageNumber=${startPage})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
-                    <a th:case="*" th:href="@{/showStatistics(pageNumber=${startPage+1})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
-                </li>
-                <li class="page"><a th:href="@{/showStatistics(pageNumber=${countPages})}"><i class="fa fa-reply-all fa-flip-horizontal" aria-hidden="true"></i></a></li>
-            </ul-->
+
         </div>
         <div class="table-stat">
             <table class="main-table">
