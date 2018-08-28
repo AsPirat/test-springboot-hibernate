@@ -79,11 +79,6 @@ var link = svg.append("g").selectAll(".link"),
       links = termsLinks(nodes);
 
   var unique_links = links.reduce(function(p,c) {
-	//var mapped = p.map(function(d,i) {
-	//	if(d.source===c.target && d.target===c.source)
-	//		return i;
-	//})
-    //var index=mapped.shift();
 	var found = false;
 	for (var i = 0; i < p.length; ++i) {
 		if (p[i].source===c.target && p[i].target===c.source) {
