@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home page</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script type="text/javascript" src="jquery.js"></script>
+</head>
+<body>
+<!--div id="content"></div-->
+<table id="content">
+</table>
+<script>
+		function show()
+		{
+			$.ajax({
+			    type: "GET",
+				url: "addCourse",
+				cache: false,
+				success: function(data){
+				var json = JSON.parse(data);
+				$("#content").append("<tr><td>Hello!</td></tr>");
+				$.each(json, function( index, value ) {
+                    var row = $("<tr><td>" + value.operation + "</td><td>" + value.status + "</td></tr>");
+                    $("#content").append(row);
+				})
+				}
+			});
+		}
+
+		$(document).ready(function(){
+		    show();
+			var timerId = setInterval(show,1000);
+		});
+	</script>
+</body>
+</html>

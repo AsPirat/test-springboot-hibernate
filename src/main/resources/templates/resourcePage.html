@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style2.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
+    <script type="text/javascript" src="jquery.js"></script>
+    <title>Ресурсы</title>
+</head>
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul class="ul-menu">
+            <li class="li-menu">
+                <div><i class="fa fa-database" aria-hidden="true"></i></div>
+                <div><a href="/showResources">Ресурсы</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                <div><a href="/showStatistics">Статистика</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-book" aria-hidden="true"></i></div>
+                <div><a href="/showTerms">Метаданные</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-link" aria-hidden="true"></i></div>
+                <div><a href="/showCluster">Кластер <br>термов</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-search" aria-hidden="true"></i></div>
+                <div><a href="/">Поиск</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="main_stat">
+        <div class="header-stat">
+            <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ</div>
+            <ul class="paging">
+                <li class="page"><a th:href="@{/showResources(pageNumber=0)}"><i class="fa fa-reply-all" aria-hidden="true"></i></a></li>
+                <li class="page" th:switch="${startPage <= 1}">
+                    <a th:case="true" th:href="@{/showResources(pageNumber=1)}"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                    <a th:case="*" th:href="@{/showResources(pageNumber=${startPage-1})}"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                </li>
+                <li class="num-page" th:with="i = 0"
+                    th:each="page : ${#numbers.sequence((startPage>=countPages) ? countPages : startPage, (startPage>=countPages) ? countPages : startPage+i)}">
+                    <a th:href="@{/showResources(pageNumber=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li class="page" th:switch="${startPage >= countPages}">
+                    <a th:case="true" th:href="@{/showResources(pageNumber=${startPage})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
+                    <a th:case="*" th:href="@{/showResources(pageNumber=${startPage+1})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
+                </li>
+                <li class="page"><a th:href="@{/showResources(pageNumber=${countPages})}"><i class="fa fa-reply-all fa-flip-horizontal" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+        <div class="table-stat">
+            <table class="main-table">
+                <tr>
+                    <td> Краткое описание ресурса</td>
+                    <td> Статус</td>
+
+
+                </tr>
+                <tr th:each="itemResource : ${listResources}">
+                    <td>
+                        ---------------------------------------------------------------------------------------
+                        <th:block th:text="${itemResource.id_resource} + '. '+ ${itemResource.authors} + ' ' + ${itemResource.title} + ' '"></th:block>
+                        ---------------------------------------------------------------------------------------
+                        <th:block th:text="${itemResource.annotation}"></th:block>
+                        <br> <br>
+                        <th:block th:text="'Направление подготовки: '+ ${itemResource.course.course}"></th:block>
+                        <br>
+                        <th:block th:text="'Дисциплина: '+ ${itemResource.discipline.discipline}"></th:block>
+                        <br>
+                        <th:block th:text="'Формат файла: '+ ${itemResource.file_format.file_format}"></th:block>
+                    </td>
+                    <td th:text="${itemResource.status}"></td>
+                </tr>
+            </table >
+        </div>
+    </div>
+    <div class="extrastat">
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ЗАГРУЗКА РЕСУРСА</div>
+            </div>
+            <div class="journal-stat">
+                <form method="post" th:action="@{/uploadFile}" enctype="multipart/form-data" th:object="${newResource}">
+                    <div class="resource-field">
+                        <div class="title-field">Файл для загрузки:</div>
+                        <input class="content-field" type="file" name="file"/>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Название:</div>
+                        <input class="content-field" type="text" th:field="*{title}"/>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Авторы:</div>
+                        <input class="content-field" type="text" th:field="*{authors}"/>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Год издания:</div>
+                        <input class="content-field" type="date" th:field="*{date_publish}"/>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Аннотация:</div>
+                        <input class="content-field" type="text" th:field="*{annotation}"/>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Направление подготовки:</div>
+                        <select class="content-field" name="idCourse">
+                            <option class="content-field" value=""></option>
+                            <option class="content-field" th:each="itemCourse : ${listCourses}"
+                                    th:value="${itemCourse.id_course}" th:utext="${itemCourse.course}"></option>
+                        </select>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Дисциплина:</div>
+                        <select class="content-field" name="idDiscipline">
+                            <option class="content-field" value=""></option>
+                            <option class="content-field" th:each="itemDiscipline : ${listDisciplines}"
+                                    th:value="${itemDiscipline.id_discipline}" th:utext="${itemDiscipline.discipline}"></option>
+                        </select>
+                    </div>
+                    <div class="resource-field">
+                        <div class="title-field">Формат ресурса:</div>
+                        <select class="content-field" name="idFileFormat">
+                            <option class="content-field" value=""></option>
+                            <option class="content-field" th:each="itemFileFormat : ${listFileFormats}"
+                                    th:value="${itemFileFormat.id_file_format}" th:utext="${itemFileFormat.file_format}"></option>
+                        </select>
+                    </div>
+                    <input class="button-field" type="submit" value="Загрузить"/>
+                </form>
+            </div>
+        </div>
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ЖУРНАЛ СОБЫТИЙ</div>
+                <input class="button-field1" id="run" type="submit" value="Запуск обработки"/>
+            </div>
+            <div class="journal-stat">
+                <table class="update-journal" id="main_journal">
+                </table>
+            </div>
+        </div>
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ЖУРНАЛ ОБРАБОТКИ</div>
+            </div>
+            <div class="journal-stat" id="journal-stat">
+                <table class="update-journal1" id="extra_journal">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var timerId1 = false;
+var timerId2 = false;
+var endStatus = false;
+		function show()
+		{
+			$.ajax({
+			    type: "GET",
+				url: "showProcessing",
+				cache: false,
+				success: function(data){
+				if(!timerId1){
+				    timerId1 = setInterval(show, 1000);
+				}
+				var json = JSON.parse(data);
+				$("#extra_journal").empty();
+                $.each(json, function( index, value ) {
+                var new_date = new Date(value.date);
+                    var formatted_date = new_date.getDate() + ".0" + new_date.getMonth() + "." + new_date.getFullYear() + " " + new_date.getHours() + ":" + new_date.getMinutes() + ":" + new_date.getSeconds() + " ";
+                    var row = $("<tr><td>" + formatted_date + "</td><td>" + value.operation + "</td></tr>");
+                    $("#extra_journal").append(row);
+				})
+				}
+			});
+		}
+
+		function show2()
+		{
+			$.ajax({
+			    type: "GET",
+				url: "showMainJournal",
+				cache: false,
+				success: function(data){
+				var json2 = JSON.parse(data);
+				$("#main_journal").empty();
+                $.each(json2, function( index2, value2 ) {
+                var new_date = new Date(value2.date);
+                    var formatted_date = new_date.getDate() + ".0" + new_date.getMonth() + "." + new_date.getFullYear() + " " + new_date.getHours() + ":" + new_date.getMinutes() + ":" + new_date.getSeconds() + " ";
+                    var row2 = $("<tr><td>" + formatted_date + "</td><td>" + value2.operation + "</td><td>" + value2.status + "</td></tr>");
+                    $("#main_journal").append(row2);
+				})
+				}
+			});
+		}
+
+        $(document).ready(function(){
+        show2();
+        $("#run").click(function(e) {
+            timerId2 = setInterval(show2, 1000);
+            show();
+            e.preventDefault();
+            $.ajax({
+			    type: "GET",
+				url: "processDocuments",
+				cache: false,
+				success: function(data){
+				if(data == 'Завершено'){
+				    endStatus = true;
+				    clearInterval(timerId1);
+				    timerId1 = false;
+				    $("#extra_journal").empty();
+				    clearInterval(timerId2);
+				    show2();
+				}
+				}
+			});
+        })
+		});
+</script>
+</body>

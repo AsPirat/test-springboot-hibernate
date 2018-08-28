@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style2.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
+    <title>Статистика</title>
+</head>
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul class="ul-menu">
+            <li class="li-menu">
+                <div><i class="fa fa-database" aria-hidden="true"></i></div>
+                <div><a href="/showResources">Ресурсы</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                <div><a href="/showStatistics">Статистика</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-book" aria-hidden="true"></i></div>
+                <div><a href="/showTerms">Метаданные</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-link" aria-hidden="true"></i></div>
+                <div><a href="/showCluster">Кластер <br>термов</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-search" aria-hidden="true"></i></div>
+                <div><a href="/">Поиск</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <form class="search_form" method="post" action="/runSearch">
+        <input class="field_search" type="text" id="query" name="query"/>
+        <br>
+        <input class="button_search" type="submit" value="ПОИСК"/>
+    </form>
+</div>
+</div>
+</body>

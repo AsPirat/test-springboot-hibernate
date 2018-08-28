@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style2.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
+    <script type="text/javascript" src="jquery.js"></script>
+    <title>Поиск ресурсов</title>
+</head>
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul class="ul-menu">
+            <li class="li-menu">
+                <div><i class="fa fa-database" aria-hidden="true"></i></div>
+                <div><a href="/showResources">Ресурсы</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                <div><a href="/showStatistics">Статистика</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-book" aria-hidden="true"></i></div>
+                <div><a href="/showTerms">Метаданные</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-link" aria-hidden="true"></i></div>
+                <div><a href="/showCluster">Кластер <br>термов</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-search" aria-hidden="true"></i></div>
+                <div><a href="/">Поиск</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content1">
+    <form class="search_form" method="post" action="/runSearch">
+        <input class="field_search" type="text" id="query" name="query" th:value="${search_query}"/>
+        <br>
+        <input class="button_search" type="submit" value="ПОИСК"/>
+    </form>
+    <div class="header-stat1">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+        <div class="title-stat">ЭЛЕКТРОННЫЕ ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ</div>
+    </div>
+    <div class="table-stat1">
+        <div class="div-search" th:if="${not #lists.isEmpty(map_search)}">
+            <table class="main-table">
+                <tr th:each="res : ${map_search}">
+                    <td th:text="${res.id_resource}+'. '+${res.title}+', '+${res.authors}"></td>
+                    <td th:text="${res.annotation}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="div-search" th:unless="${not #lists.isEmpty(map_search)}">
+            <table class="main-table">
+                <tr>
+                    <td class="empty-search" th:text="${empty_result}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>

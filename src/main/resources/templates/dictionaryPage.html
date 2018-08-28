@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style2.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css"/>
+    <title>Словарь ресурсов</title>
+</head>
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul class="ul-menu">
+            <li class="li-menu">
+                <div><i class="fa fa-database" aria-hidden="true"></i></div>
+                <div><a href="/showResources">Ресурсы</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                <div><a href="/showStatistics">Статистика</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-book" aria-hidden="true"></i></div>
+                <div><a href="/showTerms">Метаданные</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-link" aria-hidden="true"></i></div>
+                <div><a href="/showCluster">Кластер <br>термов</a></div>
+            </li>
+            <li class="li-menu">
+                <div><i class="fa fa-search" aria-hidden="true"></i></div>
+                <div><a href="/">Поиск</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="main_stat">
+        <div class="header-stat">
+            <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">СЛОВАРЬ РЕСУРСОВ</div>
+            <ul class="paging">
+                <li class="page"><a th:href="@{/showTerms(pageDict=0)}"><i class="fa fa-reply-all" aria-hidden="true"></i></a></li>
+                <li class="page" th:switch="${startPageW <= 1}">
+                    <a th:case="true" th:href="@{/showTerms(pageDict=1)}"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                    <a th:case="*" th:href="@{/showTerms(pageDict=${startPageW-1})}"><i class="fa fa-reply" aria-hidden="true"></i></a>
+                </li>
+                <li class="num-page" th:with="iW = 0"
+                    th:each="page : ${#numbers.sequence((startPageW>=countPagesW) ? countPagesW : startPageW, (startPageW>=countPagesW) ? countPagesW : startPageW+iW)}">
+                    <a th:href="@{/showTerms(pageDict=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li class="page" th:switch="${startPageW >= countPagesW}">
+                    <a th:case="true" th:href="@{/showTerms(pageDict=${startPageW})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
+                    <a th:case="*" th:href="@{/showTerms(pageDict=${startPageW+1})}"><i class="fa fa-reply fa-flip-horizontal" aria-hidden="true"></i></a>
+                </li>
+                <li class="page"><a th:href="@{/showTerms(pageDict=${countPagesW})}"><i class="fa fa-reply-all fa-flip-horizontal" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+        <div class="table-stat">
+            <table class="main-table">
+                <tr>
+                    <td class="id_term"> Номер терма </td>
+                    <td class="res_count"> Количество ресурсов </td>
+                    <td> IDF </td>
+                    <td> Значение терма </td>
+                </tr>
+                <tr th:each="word : ${listDictionary}">
+                    <td class="id_term" th:text="${word.id}"></td>
+                    <td class="res_count" th:text="${word.resources_count}"></td>
+                    <td th:text="${#numbers.formatDecimal(word.idf,1,5)}"></td>
+                    <td th:text="${word.key_word}"></td>
+                </tr>
+            </table >
+        </div>
+    </div>
+    <div class="extrastat">
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">НАПРАВЛЕНИЯ ПОДГОТОВКИ</div>
+            </div>
+            <div class="journal-stat">
+                <table class="update-journal">
+                    <tr>
+                        <td> Направление подготовки </td>
+						<td class="id_term"> Идентификатор </td>
+						<td class="code"> Код </td>
+                    </tr>
+                    <tr th:each="itemCourse : ${listCourses}">
+                        <td th:text="${itemCourse.course}"></td>
+                        <td class="id_term" th:text="${itemCourse.id_course}"></td>
+						<td th:text="${itemCourse.code}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ДИСЦИПЛИНЫ</div>
+            </div>
+            <div class="journal-stat">
+                <table class="update-journal">
+                    <tr>
+                        <td> Идентификатор </td>
+                        <td> Дисциплина </td>
+
+                    </tr>
+                    <tr th:each="itemDiscipline : ${listDisciplines}">
+                        <td th:text="${itemDiscipline.id_discipline}"></td>
+                        <td th:text="${itemDiscipline.discipline}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="journal-log">
+            <div class="header-stat">
+                <i class="fa fa-info-circle" aria-hidden="true"></i><div class="title-stat">ФОРМАТЫ РЕСУРСОВ</div>
+            </div>
+            <div class="journal-stat">
+                <table class="update-journal">
+                    <tr>
+                        <td> Идентификатор </td>
+                        <td> Формат образовательного ресурса </td>
+
+                    </tr>
+                    <tr th:each="itemFileFormat : ${listFileFormats}">
+                        <td th:text="${itemFileFormat.id_file_format}"></td>
+                        <td th:text="${itemFileFormat.file_format}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
