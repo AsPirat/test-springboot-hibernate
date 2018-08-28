@@ -16,10 +16,9 @@ import java.util.Optional;
 
 @Controller
 public class DictionaryController {
+
     @Autowired
     private DictionaryService dictService;
-    @Autowired
-    private ResourceService resourceService;
     @Autowired
     private CourseService courseService;
     @Autowired
